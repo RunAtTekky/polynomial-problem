@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"fmt"
 	"hashira/model"
 	"math"
 	"sort"
@@ -66,4 +67,17 @@ func MakeEquations(entries *map[string]model.Entry, key *model.Key) []Equation {
 	}
 
 	return equations
+}
+
+func PrintEquation(m int, variables *map[int]float64) {
+	fmt.Println("Equation: ")
+	fmt.Print("P(x) = ")
+	for key := m; key >= 0; key-- {
+		if key != 0 {
+			fmt.Printf("%.2fx^%d + ", (*variables)[key], key)
+		} else {
+			fmt.Printf("%.2f\n", (*variables)[key])
+		}
+	}
+
 }
