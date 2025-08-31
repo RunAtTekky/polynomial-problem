@@ -2,8 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"hashira/helper"
 	"hashira/model"
 	"log"
+	"strconv"
 )
 
 func main() {
@@ -11,11 +14,39 @@ func main() {
 	var key model.Key
 	entries := make(map[string]model.Entry)
 	json_parser(&rawData, &key, &entries)
+	equations := makeEquations(&entries, &key)
+	augmentedMatrix := helper.CreateAugmentedMatrix(equations)
+	REFmatrix := helper.RowEchelonForm(augmentedMatrix)
+	variables := helper.BackSubstitution(REFmatrix)
+
+	printVariables(&variables)
+}
+
+func printVariables(variables *map[int]float64) {
+	for key, val := range *variables {
+		fmt.Printf("Key: %d, Value: %.3f\n", key, val)
+	}
+}
+
+func makeEquations(entries *map[string]model.Entry, key *model.Key) []helper.Equation {
+	var equations []helper.Equation
+
+	for x, entry := range *entries {
+		y := helper.BaseConversion(entry.Base, entry.Value)
+
+		xInt, _ := strconv.Atoi(x)
+
+		equation := helper.CreateEquation(float64(xInt), y, float64(key.K-1))
+		equations = append(equations, equation)
+	}
+
+	return equations
 }
 
 func json_parser(rawData *map[string]json.RawMessage, key *model.Key, entries *map[string]model.Entry) {
 	input_json := `
-    "keys": {
+	{
+	"keys": {
         "n": 4,
         "k": 3
     },
