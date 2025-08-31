@@ -37,5 +37,5 @@ func RowEchelonForm(augmentedMatrix []AugmentedEquation) []AugmentedEquation {
 		}
 	}
 
-	return []AugmentedEquation{}
+	return augmentedMatrix
 }
