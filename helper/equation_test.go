@@ -9,7 +9,7 @@ func TestCreateEquation(t *testing.T) {
 	equation := CreateEquation(3, 12, 4)
 
 	want_equation := Equation{
-		expression: []int{81, 27, 9, 3, 1},
+		expression: []float64{81, 27, 9, 3, 1},
 		value:      12,
 	}
 

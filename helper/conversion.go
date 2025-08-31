@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func BaseConversion(base, value string) int {
+func BaseConversion(base, value string) float64 {
 	baseInt, err := strconv.Atoi(base)
 	if err != nil {
 		log.Fatal("Wrong base given", err)
@@ -13,5 +13,5 @@ func BaseConversion(base, value string) int {
 
 	yValue, err := strconv.ParseInt(value, baseInt, 64)
 
-	return int(yValue)
+	return float64(yValue)
 }

@@ -5,17 +5,17 @@ import (
 )
 
 type Equation struct {
-	expression []int
-	value      int
+	expression []float64
+	value      float64
 }
 
-func CreateEquation(x, y, m int) Equation {
+func CreateEquation(x, y, m float64) Equation {
 	var equation Equation
 
 	for i := m; i >= 0; i-- {
 		x_i := math.Pow(float64(x), float64(i))
 
-		equation.expression = append(equation.expression, int(x_i))
+		equation.expression = append(equation.expression, x_i)
 	}
 
 	equation.value = y

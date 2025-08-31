@@ -9,7 +9,7 @@ func TestConversion(t *testing.T) {
 	cases := []struct {
 		base  string
 		value string
-		want  int
+		want  float64
 	}{
 		{base: "2", value: "111", want: 7},
 		{base: "10", value: "12", want: 12},
@@ -22,7 +22,7 @@ func TestConversion(t *testing.T) {
 			want := tt.want
 
 			if got != want {
-				t.Fatalf("got %d but want %d", got, want)
+				t.Fatalf("got %.3f but want %.3f", got, want)
 			}
 
 		})

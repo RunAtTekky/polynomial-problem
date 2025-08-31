@@ -1,7 +1,7 @@
 package helper
 
 type AugmentedEquation struct {
-	Expression []int
+	Expression []float64
 }
 
 func CreateAugmentedMatrix(equations []Equation) []AugmentedEquation {
