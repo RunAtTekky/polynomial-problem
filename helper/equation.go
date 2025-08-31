@@ -1,7 +1,9 @@
 package helper
 
 import (
+	"hashira/model"
 	"math"
+	"strconv"
 )
 
 type Equation struct {
@@ -21,4 +23,19 @@ func CreateEquation(x, y, m float64) Equation {
 	equation.value = y
 
 	return equation
+}
+
+func MakeEquations(entries *map[string]model.Entry, key *model.Key) []Equation {
+	var equations []Equation
+
+	for x, entry := range *entries {
+		y := BaseConversion(entry.Base, entry.Value)
+
+		xInt, _ := strconv.Atoi(x)
+
+		equation := CreateEquation(float64(xInt), y, float64(key.K-1))
+		equations = append(equations, equation)
+	}
+
+	return equations
 }
