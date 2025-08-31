@@ -16,8 +16,12 @@ func RowEchelonForm(augmentedMatrix []AugmentedEquation) []AugmentedEquation {
 
 		if pivot != col {
 			for j := col; j < expressionSize; j++ {
-				augmentedMatrix[pivot].Expression[j], augmentedMatrix[col].Expression[j] =
-					augmentedMatrix[col].Expression[j], augmentedMatrix[pivot].Expression[j]
+				a := &augmentedMatrix[pivot].Expression[j]
+				b := &augmentedMatrix[col].Expression[j]
+
+				tmp := a
+				a = b
+				b = tmp
 			}
 		}
 
@@ -26,14 +30,9 @@ func RowEchelonForm(augmentedMatrix []AugmentedEquation) []AugmentedEquation {
 			denominator := float64(augmentedMatrix[col].Expression[col])
 			factor := numerator / denominator
 
-			for j := col; j < expressionSize; j++ {
-				currElement := float64(augmentedMatrix[row].Expression[j])
-
-				currElement -= factor * denominator
-
-				augmentedMatrix[row].Expression[j] = currElement
+			for j := col; j < augmentedSize; j++ {
+				augmentedMatrix[row].Expression[j] -= factor * augmentedMatrix[col].Expression[j]
 			}
-
 		}
 	}
 

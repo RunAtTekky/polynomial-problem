@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"reflect"
+	"math"
 	"testing"
 )
 
@@ -23,8 +23,29 @@ func TestRowEchelonForm(t *testing.T) {
 
 	got := RowEchelonForm(augmentedMatrix)
 
-	if !reflect.DeepEqual(got, want) {
+	if !areMatricesEqual(got, want) {
 		t.Fatalf("got \n%v\n but want \n%v\n given \n%v\n", got, want, augmentedMatrix)
 	}
+}
 
+func areMatricesEqual(matA, matB []AugmentedEquation) bool {
+	if len(matA) != len(matB) {
+		return false
+	}
+
+	if len(matA[0].Expression) != len(matB[0].Expression) {
+		return false
+	}
+
+	threshold := 1e-3
+
+	for row := range matA {
+		for col := range matA[0].Expression {
+			if math.Abs(matA[row].Expression[col]-matB[row].Expression[col]) > threshold {
+				return false
+			}
+		}
+	}
+
+	return true
 }
