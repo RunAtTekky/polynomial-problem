@@ -79,8 +79,8 @@ func json_parser(rawData *map[string]json.RawMessage, key *model.Key, entries *m
 		log.Fatal("Error while parsing keys", err)
 	}
 
-	for key, val := range *rawData {
-		if key == "keys" {
+	for k, val := range *rawData {
+		if k == "keys" {
 			continue
 		}
 
@@ -91,6 +91,10 @@ func json_parser(rawData *map[string]json.RawMessage, key *model.Key, entries *m
 			log.Fatal("Error while parsing entry", err)
 		}
 
-		(*entries)[key] = value
+		(*entries)[k] = value
+
+		if len(*entries) >= key.K {
+			break
+		}
 	}
 }
