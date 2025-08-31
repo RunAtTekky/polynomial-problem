@@ -19,43 +19,21 @@ type Entry struct {
 	Value string `json:"value"`
 }
 
-func Json_parser(rawData *map[string]json.RawMessage, key *Key, entries *map[string]Entry) {
-	input_json := `
-	{
-	"keys": {
-        "n": 4,
-        "k": 3
-    },
-    "1": {
-        "base": "10",
-        "value": "4"
-    },
-    "2": {
-        "base": "2",
-        "value": "111"
-    },
-    "3": {
-        "base": "10",
-        "value": "12"
-    },
-    "6": {
-        "base": "4",
-        "value": "213"
-    }
-}
-	`
-
+func Json_parser(input_json string) (map[string]json.RawMessage, Key, map[string]Entry) {
+	var rawData map[string]json.RawMessage
 	err := json.Unmarshal([]byte(input_json), &rawData)
 	if err != nil {
 		log.Fatal("Error while parsing json file", err)
 	}
 
-	err = json.Unmarshal((*rawData)["keys"], &key)
+	var key Key
+	err = json.Unmarshal(rawData["keys"], &key)
 	if err != nil {
 		log.Fatal("Error while parsing keys", err)
 	}
 
-	for k, val := range *rawData {
+	entries := make(map[string]Entry)
+	for k, val := range rawData {
 		if k == "keys" {
 			continue
 		}
@@ -67,10 +45,12 @@ func Json_parser(rawData *map[string]json.RawMessage, key *Key, entries *map[str
 			log.Fatal("Error while parsing entry", err)
 		}
 
-		(*entries)[k] = value
+		entries[k] = value
 
-		if len(*entries) >= key.K {
+		if len(entries) >= key.K {
 			break
 		}
 	}
+
+	return rawData, key, entries
 }

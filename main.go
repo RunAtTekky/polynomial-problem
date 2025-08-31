@@ -1,17 +1,14 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"hashira/helper"
 	"hashira/model"
 )
 
 func main() {
-	var rawData map[string]json.RawMessage
-	var key model.Key
-	entries := make(map[string]model.Entry)
-	model.Json_parser(&rawData, &key, &entries)
+	data := helper.TakeInput(".")
+	_, key, entries := model.Json_parser(data)
 	equations := helper.MakeEquations(&entries, &key)
 	augmentedMatrix := helper.CreateAugmentedMatrix(equations)
 	REFmatrix := helper.RowEchelonForm(augmentedMatrix)
