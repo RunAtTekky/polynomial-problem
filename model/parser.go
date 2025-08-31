@@ -46,10 +46,6 @@ func Json_parser(input_json string) (map[string]json.RawMessage, Key, map[string
 		}
 
 		entries[k] = value
-
-		if len(entries) >= key.K {
-			break
-		}
 	}
 
 	return rawData, key, entries
